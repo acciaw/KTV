@@ -1,4 +1,4 @@
-# KTV — your own music television
+# KTV: your own music television
 
 Open `/tv` on any screen (projector, TV browser, laptop) and KTV runs non-stop music videos picked from your music on Spotify, YouTube, Apple Music, Deezer or Last.fm. It adds a restyling station logo in the corner, title cards, and MTV-style transitions between clips. Close the tab and it stops.
 
