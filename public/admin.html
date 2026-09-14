@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>KTV Control Room</title>
+  <link rel="icon" href="/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;800&display=swap">
+  <link rel="preload" href="/fonts/permanent-marker.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/logo.css">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <div class="studio-backdrop" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand">
+        <div class="monitor brand-monitor">
+          <span class="monitor-osd" aria-hidden="true">PGM</span>
+          <div id="logo" class="brand-logo"></div>
+        </div>
+        <div class="brand-text">
+          <p class="tape masthead-tape" aria-hidden="true">Backstage</p>
+          <p class="kicker" id="kicker">Acciaw Television</p>
+          <h1 class="title-card" id="page-title">Control Room</h1>
+        </div>
+      </div>
+      <div class="masthead-side">
+        <p class="on-air" id="on-air" data-live="false"><span class="on-air-lamp" aria-hidden="true"></span><span class="on-air-text">Off air</span></p>
+        <a href="/tv" class="btn btn-go" id="open-tv" hidden>Open the TV <span aria-hidden="true">▶</span></a>
+      </div>
+    </div>
+    <nav class="masthead-nav" id="masthead-nav" aria-label="Admin pages" hidden>
+      <a href="/admin" data-page="control-room">Control room</a>
+      <a href="/admin/stats" data-page="stats">Stats</a>
+    </nav>
+    <div class="color-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  </header>
+
+  <main>
+    <p id="loading" class="loading">Loading…</p>
+
+    <section id="onboarding" hidden>
+      <ol class="steps">
+        <li data-for="1"><span class="step-no">01</span> You</li>
+        <li data-for="2"><span class="step-no">02</span> Music</li>
+        <li data-for="3"><span class="step-no">03</span> Lineup</li>
+      </ol>
+
+      <form class="card" data-step="1" id="step-name" data-accent="yellow">
+        <header class="module-head"><span class="ch">Step 01</span><h2>Welcome to your own music television</h2></header>
+        <p>KTV plays the music videos of your songs, non-stop, with MTV-style idents between clips. Three quick steps and you're on air.</p>
+        <div class="field">
+          <label for="owner-name">Your name or username</label>
+          <input id="owner-name" name="ownerName" placeholder="Acciaw" maxlength="40" autocomplete="nickname">
+        </div>
+        <p class="note">Its first letter goes in the logo, and your channel becomes <b id="preview-title">Acciaw Television</b>.</p>
+        <div class="preview monitor">
+          <span class="monitor-osd" aria-hidden="true">PVW</span>
+          <div id="preview-logo"></div>
+        </div>
+        <p class="error" hidden></p>
+        <div class="actions"><button type="submit">Next</button></div>
+      </form>
+
+      <section data-step="2" id="step-music" hidden>
+        <div class="card" data-accent="cyan">
+          <header class="module-head"><span class="ch">Step 02</span><h2>Where's your music?</h2></header>
+          <p>KTV reads which songs you like from a music service, then plays their music videos. Start with one; you can connect more later in the control room.</p>
+          <div class="service-picker" role="tablist" aria-label="Music service">
+            <button type="button" role="tab" class="pick" data-pick="spotify" aria-selected="true">Spotify</button>
+            <button type="button" role="tab" class="pick" data-pick="youtube" aria-selected="false">YouTube</button>
+            <button type="button" role="tab" class="pick" data-pick="applemusic" aria-selected="false">Apple Music</button>
+            <button type="button" role="tab" class="pick" data-pick="deezer" aria-selected="false">Deezer</button>
+            <button type="button" role="tab" class="pick" data-pick="lastfm" aria-selected="false">Last.fm</button>
+          </div>
+        </div>
+
+        <form class="card" id="step-spotify" data-accent="lime">
+          <header class="module-head"><span class="ch">Source</span><h2>Connect Spotify</h2></header>
+          <p>KTV reads your songs through a free Spotify app that you create. It takes a couple of minutes, and the account that creates the app needs Spotify Premium.</p>
+          <ol class="howto">
+            <li>Open the <a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">Spotify developer dashboard</a> and log in.</li>
+            <li>Click <b>Create app</b>. The name and description can be anything.</li>
+            <li>Under <b>Redirect URIs</b>, add exactly <code class="redirect-uri"></code> <button type="button" class="ghost small copy-uri">Copy</button></li>
+            <li>Where it asks which APIs you plan to use, tick <b>Web API</b>, then save.</li>
+            <li>Open the app's <b>Settings</b> and paste its Client ID and Client secret below.</li>
+          </ol>
+          <div class="field">
+            <label for="onboarding-client-id">Client ID</label>
+            <input id="onboarding-client-id" name="clientId" autocomplete="off" spellcheck="false" required>
+          </div>
+          <div class="field">
+            <label for="onboarding-client-secret">Client secret</label>
+            <input id="onboarding-client-secret" name="clientSecret" type="password" autocomplete="new-password">
+          </div>
+          <p class="error" hidden></p>
+          <div class="actions">
+            <button type="button" class="ghost" data-back="1">Back</button>
+            <button type="submit">Connect Spotify</button>
+          </div>
+        </form>
+
+        <div class="card" id="step-service" data-accent="lime" hidden>
+          <header class="module-head"><span class="ch">Source</span><h2 class="service-heading"></h2></header>
+          <div class="service-slot"></div>
+        </div>
+      </section>
+
+      <form class="card" data-step="3" id="step-lineup" data-accent="pink" hidden>
+        <header class="module-head"><span class="ch">Step 03</span><h2>Pick your lineup</h2></header>
+        <p>Choose which of your songs KTV looks up music videos for. You can change this later in the control room.</p>
+        <fieldset class="spotify-only">
+          <legend data-alone="Your songs" data-with-others="Spotify">Your songs</legend>
+          <label><input type="checkbox" name="includeLiked"> Liked songs</label>
+          <label><input type="checkbox" name="includeTop"> Your top tracks (last ~6 months)</label>
+        </fieldset>
+        <fieldset class="spotify-only">
+          <legend data-alone="Playlists" data-with-others="Spotify playlists">Playlists</legend>
+          <p class="note">Songs from the playlists you tick are added on top of your liked songs and top tracks.</p>
+          <div class="playlists">Loading your playlists…</div>
+        </fieldset>
+        <div class="service-lineups"></div>
+        <p class="error" hidden></p>
+        <div class="actions"><button type="submit">Finish</button><span class="note status"></span></div>
+      </form>
+
+      <section class="card done-card" data-step="done" data-accent="lime" hidden>
+        <header class="module-head"><span class="ch">Live</span><h2>You're on air</h2></header>
+        <div class="done-stage" aria-hidden="true">
+          <p class="on-air on-air-big" data-live="true"><span class="on-air-lamp"></span><span class="on-air-text">On air</span></p>
+        </div>
+        <p id="done-summary"></p>
+        <div class="actions">
+          <a class="btn" href="/tv">Open the TV <span aria-hidden="true">▶</span></a>
+          <a class="btn ghost" href="/admin">Go to the control room</a>
+        </div>
+      </section>
+    </section>
+
+    <section id="control-room" hidden>
+      <nav class="rundown" aria-label="Control room sections">
+        <p class="tape rundown-tape">Rundown</p>
+        <ol>
+          <li><a href="#channel-form"><span class="ch">01</span>Channel<span class="tally" data-tally="channel" data-state="on" aria-hidden="true"></span></a></li>
+          <li><a href="#spotify-form"><span class="ch">02</span>Spotify<span class="tally" data-tally="spotify" aria-hidden="true"></span></a></li>
+          <li><a href="#services-card"><span class="ch">03</span>Music services<span class="tally" data-tally="services" aria-hidden="true"></span></a></li>
+          <li><a href="#keys-form"><span class="ch">04</span>Optional services<span class="tally" data-tally="keys" aria-hidden="true"></span></a></li>
+          <li><a href="#lineup-form"><span class="ch">05</span>Lineup<span class="tally" data-tally="lineup" aria-hidden="true"></span></a></li>
+          <li><a href="/admin/stats"><span class="ch">06</span>Stats<span class="rundown-arrow" aria-hidden="true">→</span></a></li>
+        </ol>
+        <div class="studio-clock"><span>Studio time</span><time id="studio-clock">--:--:--</time></div>
+      </nav>
+
+      <div class="modules">
+        <form class="card" id="channel-form" data-accent="yellow">
+          <header class="module-head"><span class="ch">CH 01</span><h2>Channel</h2></header>
+          <div class="field">
+            <label for="channel-name">Your name or username</label>
+            <input id="channel-name" name="ownerName" placeholder="Acciaw" maxlength="40">
+          </div>
+          <p class="note">Its first letter goes in the logo, and the TV shows it as the channel name.</p>
+          <p class="error" hidden></p>
+          <div class="actions"><button type="submit">Save</button><span class="note status"></span></div>
+        </form>
+
+        <form class="card" id="spotify-form" data-accent="lime">
+          <header class="module-head"><span class="ch">CH 02</span><h2>Spotify</h2></header>
+          <p class="spotify-state"></p>
+          <div class="field">
+            <label for="client-id">Client ID</label>
+            <input id="client-id" name="clientId" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="client-secret">Client secret</label>
+            <input id="client-secret" name="clientSecret" type="password" autocomplete="new-password">
+          </div>
+          <p class="note">Redirect URI to register in the Spotify app: <code class="redirect-uri"></code> <button type="button" class="ghost small copy-uri">Copy</button></p>
+          <p class="error" hidden></p>
+          <div class="actions">
+            <button type="submit">Save changes</button>
+            <button type="button" class="ghost" id="reconnect">Reconnect</button>
+            <button type="button" class="danger" id="remove-spotify">Remove app</button>
+            <span class="note status"></span>
+          </div>
+        </form>
+
+        <section class="card" id="services-card" data-accent="cyan">
+          <header class="module-head"><span class="ch">CH 03</span><h2>More music services</h2></header>
+          <p class="note">Songs from every connected service join the lineup. Each one is read only when the lineup is rebuilt.</p>
+          <div class="service-list"></div>
+        </section>
+
+        <form class="card" id="keys-form" data-accent="purple">
+          <header class="module-head"><span class="ch">CH 04</span><h2>Optional services</h2></header>
+          <div class="field">
+            <label for="key-lastfm">Last.fm API key</label>
+            <div class="field-row">
+              <input id="key-lastfm" name="lastfm" type="password" autocomplete="new-password">
+              <button type="button" class="ghost" data-remove="lastfm">Remove</button>
+            </div>
+            <p class="note">Turns on discovery: songs similar to yours that you haven't saved. <a href="https://www.last.fm/api/account/create" target="_blank" rel="noopener">Get a free key</a>.</p>
+          </div>
+          <div class="field">
+            <label for="key-youtube">YouTube Data API key</label>
+            <div class="field-row">
+              <input id="key-youtube" name="youtube" type="password" autocomplete="new-password">
+              <button type="button" class="ghost" data-remove="youtube">Remove</button>
+            </div>
+            <p class="note">Backup for video lookups if YouTube blocks KTV's normal search. <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener">Create one in Google Cloud</a>.</p>
+          </div>
+          <p class="error" hidden></p>
+          <div class="actions"><button type="submit">Save keys</button><span class="note status"></span></div>
+        </form>
+
+        <form class="card" id="lineup-form" data-accent="pink">
+          <header class="module-head"><span class="ch">CH 05</span><h2>Lineup</h2></header>
+          <fieldset class="spotify-only">
+            <legend data-alone="Your songs" data-with-others="Spotify">Your songs</legend>
+            <label><input type="checkbox" name="includeLiked"> Liked songs</label>
+            <label><input type="checkbox" name="includeTop"> Your top tracks (last ~6 months)</label>
+          </fieldset>
+          <fieldset>
+            <legend>Live performances · experimental</legend>
+            <label><input type="checkbox" name="includeLive"> Mix in official live performances</label>
+            <p class="note">For about half the songs, KTV plays a live version instead of the music video when it finds one: from the artist's own channel or a trusted live-music channel (KEXP, NPR Music, BBC Music, COLORS…), never fan footage.</p>
+          </fieldset>
+          <fieldset>
+            <legend>Discovery</legend>
+            <label class="fader-row">Similar songs you haven't saved <input type="range" name="discoveryShare" min="0" max="0.6" step="0.05"> <output class="share-out"></output></label>
+            <p class="note discovery-note"></p>
+          </fieldset>
+          <fieldset class="spotify-only">
+            <legend data-alone="Playlists" data-with-others="Spotify playlists">Playlists</legend>
+            <p class="note">Songs from the playlists you tick are added on top of your liked songs and top tracks.</p>
+            <div class="playlists">Loading…</div>
+          </fieldset>
+          <div class="service-lineups"></div>
+          <fieldset class="eras-field">
+            <legend>Eras</legend>
+            <div class="era-control">
+              <div class="era-range">
+                <div class="era-fill"></div>
+                <input type="range" name="eraFrom" min="0" max="0" step="1" value="0" aria-label="Earliest decade">
+                <input type="range" name="eraTo" min="0" max="0" step="1" value="0" aria-label="Latest decade">
+              </div>
+              <div class="era-ticks"></div>
+            </div>
+            <p class="note era-note">Loading…</p>
+          </fieldset>
+          <fieldset class="artists-field">
+            <legend>Artists</legend>
+            <div class="artists-bar">
+              <button type="button" class="ghost" id="artists-toggle" aria-expanded="false" aria-controls="artists-menu">Choose artists</button>
+              <span class="note artists-summary">Loading…</span>
+            </div>
+            <div class="artists-menu" id="artists-menu" hidden>
+              <div class="artists-tools">
+                <input type="search" class="artists-search" placeholder="Search artists" aria-label="Search artists">
+                <button type="button" class="ghost small" data-artists="check">Check all</button>
+                <button type="button" class="ghost small" data-artists="uncheck">Uncheck all</button>
+              </div>
+              <p class="note">Unchecked artists never play, including the songs they're featured on. "Check all" and "Uncheck all" apply to the artists your search shows.</p>
+              <div class="artist-list"></div>
+            </div>
+          </fieldset>
+          <p class="error" hidden></p>
+          <div class="actions">
+            <button type="submit">Save</button>
+            <button type="button" class="ghost" id="refresh">Rebuild lineup now</button>
+            <span class="note status"></span>
+          </div>
+        </form>
+
+        <p id="library-info" class="note"></p>
+      </div>
+    </section>
+
+    <section id="stats" hidden></section>
+  </main>
+
+  <template id="service-youtube">
+    <form class="service-form">
+      <p class="service-state"></p>
+      <p class="note">KTV reads your liked music videos and your playlists (YouTube Music playlists included) through a free Google Cloud app that you create.</p>
+      <ol class="howto">
+        <li>Open the <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener">YouTube Data API v3</a> in Google Cloud, create a project if it asks, and click <b>Enable</b>.</li>
+        <li>In <a href="https://console.cloud.google.com/auth/overview" target="_blank" rel="noopener">Google Auth Platform</a>, set up the app for <b>External</b> users. Then under <b>Audience</b>, publish it: while an app is in testing, Google ends its login after 7 days. Google warns that the app isn't verified, which is expected for an app only you use.</li>
+        <li>Under <b>Clients</b>, create a <b>Web application</b> client with this authorized redirect URI: <code class="service-uri"></code> <button type="button" class="ghost small copy-service-uri">Copy</button></li>
+        <li>Paste the client's ID and secret below.</li>
+      </ol>
+      <div class="field"><label data-for="clientId">Client ID</label><input name="clientId" autocomplete="off" spellcheck="false"></div>
+      <div class="field"><label data-for="clientSecret">Client secret</label><input name="clientSecret" type="password" autocomplete="new-password"></div>
+      <p class="error" hidden></p>
+      <div class="actions">
+        <button type="submit">Save and connect</button>
+        <button type="button" class="ghost" data-action="reconnect">Reconnect</button>
+        <button type="button" class="danger" data-action="remove">Remove</button>
+        <span class="note status"></span>
+      </div>
+    </form>
+  </template>
+
+  <template id="service-applemusic">
+    <form class="service-form">
+      <p class="service-state"></p>
+      <p class="note">KTV reads the songs in your library and your playlists with a MusicKit key from your Apple Developer account, then you sign in with Apple Music.</p>
+      <ol class="howto">
+        <li>This needs a paid <a href="https://developer.apple.com/programs/" target="_blank" rel="noopener">Apple Developer Program</a> membership.</li>
+        <li>In <a href="https://developer.apple.com/account/resources/identifiers/list" target="_blank" rel="noopener">Identifiers</a>, add a <b>Media ID</b> with <b>MusicKit</b> turned on.</li>
+        <li>In <a href="https://developer.apple.com/account/resources/authkeys/list" target="_blank" rel="noopener">Keys</a>, create a key with <b>Media Services</b> for that Media ID, and download its .p8 file.</li>
+        <li>Paste your team ID (under <b>Membership details</b> in your account), the key ID, and the whole .p8 file below. Allow Apple's sign-in window if your browser asks.</li>
+      </ol>
+      <div class="field"><label data-for="teamId">Team ID</label><input name="teamId" autocomplete="off" spellcheck="false"></div>
+      <div class="field"><label data-for="keyId">Key ID</label><input name="keyId" autocomplete="off" spellcheck="false"></div>
+      <div class="field"><label data-for="privateKey">Private key (the .p8 file)</label><input name="privateKey" type="password" autocomplete="new-password"></div>
+      <p class="error" hidden></p>
+      <div class="actions">
+        <button type="submit">Save and sign in</button>
+        <button type="button" class="ghost" data-action="reconnect">Sign in again</button>
+        <button type="button" class="danger" data-action="remove">Remove</button>
+        <span class="note status"></span>
+      </div>
+    </form>
+  </template>
+
+  <template id="service-deezer">
+    <form class="service-form">
+      <p class="service-state"></p>
+      <p class="note">No app to create: KTV reads your favourite tracks and playlists from your public Deezer profile. On Deezer, open your profile and copy its link. Your profile has to be public, which you can set in Deezer's privacy settings.</p>
+      <div class="field"><label data-for="profile">Your Deezer profile link</label><input name="profile" placeholder="https://www.deezer.com/profile/123456789" autocomplete="off" spellcheck="false"></div>
+      <p class="error" hidden></p>
+      <div class="actions">
+        <button type="submit">Save</button>
+        <button type="button" class="danger" data-action="remove">Remove</button>
+        <span class="note status"></span>
+      </div>
+    </form>
+  </template>
+
+  <template id="service-lastfm">
+    <form class="service-form">
+      <p class="service-state"></p>
+      <p class="note">Your loved tracks and top tracks. Last.fm counts what you play in other apps when they report to it: Spotify, Deezer and Tidal do it on their own, Apple Music and YouTube Music through scrobbling apps.</p>
+      <div class="field"><label data-for="username">Last.fm username</label><input name="username" autocomplete="off" spellcheck="false"></div>
+      <div class="field">
+        <label data-for="apiKey">Last.fm API key</label>
+        <input name="apiKey" type="password" autocomplete="new-password">
+        <p class="note"><a href="https://www.last.fm/api/account/create" target="_blank" rel="noopener">Get a free key</a>. It's the same key as the one for discovery.</p>
+      </div>
+      <p class="error" hidden></p>
+      <div class="actions">
+        <button type="submit">Save</button>
+        <button type="button" class="danger" data-action="remove">Remove</button>
+        <span class="note status"></span>
+      </div>
+    </form>
+  </template>
+
+  <script type="module" src="/admin.js"></script>
+</body>
+</html>

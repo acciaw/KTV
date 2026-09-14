@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>KTV · Acciaw Television</title>
+  <link rel="icon" href="/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;800&display=swap">
+  <link rel="preload" href="/fonts/permanent-marker.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/logo.css">
+  <link rel="stylesheet" href="/tv.css">
+</head>
+<body>
+  <div id="stage" class="off"><div id="player"></div></div>
+  <div id="endscreen-covers"></div>
+  <div id="lower-third" class="lower-third"></div>
+  <div id="transition" class="transition"></div>
+  <div id="bug" class="bug"></div>
+
+  <div id="difficulties" class="difficulties" hidden>
+    <div id="difficulties-logo"></div>
+    <p>We are experiencing technical difficulties</p>
+    <p>Please stand by</p>
+    <small></small>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <div id="tune-in" class="tune-in">
+    <canvas id="tune-noise"></canvas>
+    <div id="tune-in-logo"></div>
+    <div class="tune-in-tagline">Acciaw Television</div>
+    <p>Press any key to tune in</p>
+    <small id="tune-in-hint"></small>
+  </div>
+
+  <script type="module" src="/tv.js"></script>
+</body>
+</html>

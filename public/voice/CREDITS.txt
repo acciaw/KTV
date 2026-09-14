@@ -1,0 +1,4 @@
+Station IDs ("[letter] T V" for every letter from A to Z, in four deliveries), recorded with scripts/voices.js
+using Kokoro-82M by hexgrad (https://huggingface.co/hexgrad/Kokoro-82M), Apache License 2.0, through kokoro-js.
+
+Voices: am_michael (deep), af_heart (bright), bm_george (cool), af_bella (soft).

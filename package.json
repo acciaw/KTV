@@ -1,0 +1,22 @@
+{
+  "name": "ktv",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KTV, Acciaw Television: Spotify playlists in, YouTube music videos out, MTV-style transitions in between.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "resolve": "node scripts/resolve.js",
+    "settings": "node scripts/settings.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "sharp": "^0.35.4",
+    "youtubei.js": "^18.0.0"
+  }
+}
