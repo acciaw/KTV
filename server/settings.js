@@ -79,7 +79,7 @@ export async function updateSettings(change) {
 
 export const spotifyConfigured = () => Boolean(current.spotify.clientId && current.spotify.clientSecret);
 
-// channel named after its owner, the logo letter is their initial: acciaw, k, ktv
+// channel named after its owner, the logo letter is their initial: kevin, k, ktv
 export function channel() {
   const name = current.ownerName?.trim() || DEFAULT_OWNER;
   const [first] = new Intl.Segmenter().segment(name);

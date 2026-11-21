@@ -5,10 +5,10 @@ const K_POINTS = '12,10 58,10 58,62 120,10 180,10 102,76 182,140 120,140 58,90 5
 export const PALETTE = ['#ff2d95', '#ffe600', '#00e5ff', '#7cff00', '#ff6a00', '#8b5cff', '#ffffff', '#101010', '#ff2146', '#2a3cff'];
 
 // whose channel this is, pages set it from the server before drawing logos
-export const channel = { name: 'Acciaw', letter: 'K' };
+export const channel = { name: 'Acciaw', letter: 'A' };
 export const setChannel = (next) => Object.assign(channel, next);
 
-// same rule as the server, "acciaw" becomes "K", "élodie" becomes "É", blank falls back to the default k
+// same rule as the server, "kevin" becomes "K", "élodie" becomes "É", blank falls back to the default owner
 export function initialOf(name) {
   const [first] = new Intl.Segmenter().segment(name.trim() || 'Acciaw');
   return first.segment.toLocaleUpperCase();

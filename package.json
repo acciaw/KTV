@@ -2,7 +2,7 @@
   "name": "ktv",
   "version": "0.1.0",
   "private": true,
-  "description": "KTV, Acciaw Television: Spotify playlists in, YouTube music videos out, MTV-style transitions in between.",
+  "description": "KTV, your own local music television: Spotify playlists in, YouTube music videos out, MTV-style transitions in between.",
   "type": "module",
   "engines": {
     "node": ">=22"
